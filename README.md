@@ -1,18 +1,30 @@
 # FinTech Assessment
 
-Kelly Pritts Notes for Assessment:
+## Notes for Assessment:
 
-- Created a Visual Studio Solution that contains PersonsManagerApi and PersonsManagerTests.
+- Created a Visual Studio Solution that contains PersonsManagerApi and PersonsManagerTests
+- Uses .Net 8 
 - Controller that defines CRUD endpoints
 - Service Interface and Implementation to provide logic for handling requests - Dependency Injection as Singleton for Controller
-- Models for expected requests and responses
+- Models for expected requests and responses. Request models use data annotations for required fields and ranges.
 - Model for the Person Data
-- SeedData to add as EF stand in and provide seed data for tests
+- SeedData to use as database and for unit testing
 
 ## Unit Testing
-- Right click on PersonsManagerTests and select Run Tests. I added Moq and XUnit but did not end up using them. I
-  
+- Right click on PersonsManagerTests and select Run Tests.
+- Use Test Explorer to see unit tests and results
 
+## Running Application
+- Build solution, run as https. You may need to create a local cert if this hasn't been done before. Follow prompts from Visual Studio.
+- Swagger provides access to the API
+- Swagger provides the expected schemas
+- There are 3 possible responses:
+  * Success - status Code 200, IsSuccess = true, Message = "Success", Requested data if applicable (post, put, get)
+  * Fail - status code 400, data format message. If the request does not have the expected format.
+  * Fail - status code 400, IsSuccess = false, Message = "Invalid Person". If the Id given is not valid.
+ 
+ ------------------------------------------------------------------------------------------------------------------------   
+  
 # Project: Building a RESTful API for Managing Person Data
 
 Description:
