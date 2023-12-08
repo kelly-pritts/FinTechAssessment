@@ -12,6 +12,7 @@
 
 ## Unit Testing
 - Right click on PersonsManagerTests and select Run Tests.
+- Use Test Explorer to see unit tests and results
 
 ## Running Application
 - Build solution, run as https. You may need to create a local cert if this hasn't been done before. Follow prompts from Visual Studio.
