@@ -1,4 +1,4 @@
-# FinTech Assessment
+# FieldTech.ai Assessment
 
 ## Notes for Assessment:
 
