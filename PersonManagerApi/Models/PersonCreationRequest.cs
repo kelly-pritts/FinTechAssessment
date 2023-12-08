@@ -11,16 +11,13 @@ namespace PersonsManagerApi.Models
         public required int Age
         {
             get { return _age; }
-            set { 
-                if(value > 0 && value <=100)
+            set
+            {
+                if (value > 0 && value <= 100)
                 {
                     _age = value;
                 }
-                else
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-                
+
             }
         }
 
