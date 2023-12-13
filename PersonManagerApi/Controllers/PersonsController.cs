@@ -13,22 +13,18 @@ namespace PersonsManagerApi.Controllers
     public class PersonsController : ControllerBase
     {
         private readonly IPersonsService _personsService;
-       
+
         public PersonsController(IPersonsService personsService)
         {
             _personsService = personsService;
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<PersonResponse>> Get(int id) 
+        public async Task<ActionResult<PersonResponse>> Get(int id)
         {
-            if (id < 0)
-            {
-                return BadRequest();
-            }
             try
             {
-               
+
                 PersonResponse response = await _personsService.GetPerson(id);
                 if (response.IsSuccess)
                 {
@@ -49,7 +45,7 @@ namespace PersonsManagerApi.Controllers
 
         [HttpGet]
         public async Task<ActionResult<PersonsResponse>> Get()
-        {    
+        {
             try
             {
                 PersonsResponse response = await _personsService.GetAllPersons();
@@ -73,10 +69,6 @@ namespace PersonsManagerApi.Controllers
         [HttpPost]
         public async Task<ActionResult<PersonResponse>> Post([FromBody] PersonCreationRequest newPerson)
         {
-            if (newPerson == null)
-            {
-                return BadRequest();
-            }
             try
             {
                 PersonResponse response = await _personsService.CreatePerson(newPerson);
@@ -100,10 +92,7 @@ namespace PersonsManagerApi.Controllers
         [HttpPut]
         public async Task<ActionResult<PersonResponse>> Put([FromBody] PersonUpdateRequest personToUpdate)
         {
-            if (personToUpdate == null)
-            {
-                return BadRequest();
-            }
+
             try
             {
                 PersonResponse response = await _personsService.UpdatePerson(personToUpdate);
@@ -127,10 +116,6 @@ namespace PersonsManagerApi.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<PersonResponse>> Delete(int id)
         {
-            if (id < 0)
-            {
-                return BadRequest();
-            }
             try
             {
 

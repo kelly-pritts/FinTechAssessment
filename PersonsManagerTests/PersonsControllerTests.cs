@@ -42,27 +42,21 @@ namespace PersonsManagerTests
             var response = (PersonResponse)((ObjectResult)result.Result!).Value!;
             Assert.IsNotNull(response);
             Assert.IsTrue(response.IsSuccess);
-        }
-
-        [TestMethod]
-        public async Task GetPerson_InvalidId()
-        {
-            var result = await _controller!.Get(-1);
-            int statusCode = ((BadRequestResult)result.Result!).StatusCode;
-            Assert.AreEqual(400,statusCode);
+            Assert.AreEqual(1, response!.Person!.Id);
         }
 
         [TestMethod]
         public async Task CreatePerson_Success()
         {
             PersonCreationRequest request = new PersonCreationRequest()
-            { 
+            {
                 Age = 1,
                 FirstName = "Test",
                 LastName = "Test",
             };
             var result = await _controller!.Post(request);
             var response = (PersonResponse)((ObjectResult)result.Result!).Value!;
+
             Assert.IsTrue(response.IsSuccess);
         }
 
@@ -71,30 +65,44 @@ namespace PersonsManagerTests
         {
             List<Person> personsBefore = SeedData.Persons();
             Person personBefore = personsBefore.Find(x => x.Id == 1)!;
-            try
+
+            PersonUpdateRequest request = new PersonUpdateRequest()
             {
-                PersonUpdateRequest request = new PersonUpdateRequest()
-                {
-                    Id = 1,
-                    Age = 40,
-                    FirstName = "Kelly",
-                    LastName = "Pritts",
-                };
-                var result = await _controller!.Put(request);
-                var response = (PersonResponse)((ObjectResult)result.Result!).Value!;
-                Assert.IsTrue(response.IsSuccess);
+                Id = 1,
+                Age = 40,
+                FirstName = "Kelly",
+                LastName = "Pritts",
+            };
 
-                List<Person> personsAfter = SeedData.Persons();
-                Person personAfter = personsAfter.Find(x => x.Id == 1)!;
+            var result = await _controller!.Put(request);
+            var response = (PersonResponse)((ObjectResult)result.Result!).Value!;
+            Assert.IsTrue(response.IsSuccess);
 
-                Assert.AreNotEqual(personAfter.Age, personBefore.Age);
+            List<Person> personsAfter = SeedData.Persons();
+            Person personAfter = personsAfter.Find(x => x.Id == 1)!;
 
+            Assert.AreEqual(29, personBefore.Age);
+            Assert.AreEqual(40, personAfter.Age);
+        }
 
-            }
-            catch
+        [TestMethod]
+        public async Task UpdatePerson_Fail_InvalidId()
+        {
+
+            PersonUpdateRequest request = new PersonUpdateRequest()
             {
+                Id = 1001,
+                Age = 40,
+                FirstName = "test",
+                LastName = "test",
+            };
 
-            }
+            var result = await _controller!.Put(request);
+            var response = (PersonResponse)((ObjectResult)result.Result!).Value!;
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.IsSuccess);
+            Assert.IsNull(response.Person);
         }
 
         [TestMethod]
@@ -112,11 +120,45 @@ namespace PersonsManagerTests
         }
 
         [TestMethod]
-        public async Task DeletePerson_InvalidId()
+        public async Task DeletePerson_ValidationError_InvalidId()
         {
             var result = await _controller!.Delete(-1);
-            int statusCode = ((BadRequestResult)result.Result!).StatusCode;
+            BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)result!.Result!;
+            int statusCode = (int)badRequestObjectResult.StatusCode!;
             Assert.AreEqual(400, statusCode);
+
+        }
+
+        [TestMethod]
+        public async Task GetPerson_ValidationError_InvalidId()
+        {
+            var result = await _controller!.Get(-1);
+
+            BadRequestObjectResult badRequestObjectResult = (BadRequestObjectResult)result!.Result!;
+            int statusCode = (int)badRequestObjectResult.StatusCode!;
+            Assert.AreEqual(400, statusCode);
+        }
+
+        [TestMethod]
+        public async Task GetPerson_InvalidPerson()
+        {
+            var result = await _controller!.Get(1001);
+            var response = (PersonResponse)((ObjectResult)result.Result!).Value!;
+
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.IsSuccess);
+            Assert.IsNull(response.Person);
+
+        }
+
+        [TestMethod]
+        public async Task DeletePerson_InvalidPerson()
+        {
+            var result = await _controller!.Delete(1001);
+
+            var response = (PersonResponse)((ObjectResult)result.Result!).Value!;
+            Assert.IsNotNull(response);
+            Assert.IsFalse(response.IsSuccess);
 
         }
     }
