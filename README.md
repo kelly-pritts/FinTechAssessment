@@ -1,9 +1,9 @@
-# FinTech Assessment
+# FieldTech.ai Assessment
 
 ## Notes for Assessment:
 
 - Created a Visual Studio Solution that contains PersonsManagerApi and PersonsManagerTests
-- Uses .Net 8 
+- Requires .Net 8 
 - Controller that defines CRUD endpoints
 - Service Interface and Implementation to provide logic for handling requests - Dependency Injection as Singleton for Controller
 - Models for expected requests and responses. Request models use data annotations for required fields and ranges.
@@ -15,9 +15,11 @@
 - Use Test Explorer to see unit tests and results
 
 ## Running Application
+- Clone Repo to local directory
 - Build solution, run as https. You may need to create a local cert if this hasn't been done before. Follow prompts from Visual Studio.
-- Swagger provides access to the API
+- Swagger provides access to the API - https://localhost:7100/swagger/index.html 
 - Swagger provides the expected schemas
+- First use the Post to create data according to the schema provided. Use newly created Ids to access Put, Get, Delete
 - There are 3 possible responses:
   * Success - status Code 200, IsSuccess = true, Message = "Success", Requested data if applicable (post, put, get)
   * Fail - status code 400, data format message. If the request does not have the expected format.
