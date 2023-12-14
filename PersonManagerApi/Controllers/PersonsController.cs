@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using PersonsManagerApi.Models;
-using PersonsManagerApi.Services;
 using PersonsManagerApi.Services.Interfaces;
 
 namespace PersonsManagerApi.Controllers
@@ -24,7 +22,6 @@ namespace PersonsManagerApi.Controllers
         {
             try
             {
-
                 PersonResponse response = await _personsService.GetPerson(id);
                 if (response.IsSuccess)
                 {
@@ -62,8 +59,6 @@ namespace PersonsManagerApi.Controllers
             {
                 return BadRequest(e.Message);
             }
-
-
         }
 
         [HttpPost]
@@ -85,7 +80,6 @@ namespace PersonsManagerApi.Controllers
             {
                 return BadRequest(e.Message);
             }
-
 
         }
 
